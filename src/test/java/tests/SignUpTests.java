@@ -14,7 +14,7 @@ public class SignUpTests extends AppiumConfig {
 
 //    RandomUtils randomUtils = new RandomUtils();
 //    String email = randomUtils.generateEmail(7)
-
+//using faker instead of random utils to generate email address
     boolean flagUserLogin = false;
     boolean flagIsPopUpErrorDisplays = false;
 
