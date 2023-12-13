@@ -25,7 +25,7 @@ public class AppiumConfig {
         capabilities.setCapability("appActivity", ".SplashActivity");
 
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
-        capabilities.setCapability(MobileCapabilityType.APP, "C:\\JavaProjects\\POMIlcarroQA20\\contacts-android.apk");
+        capabilities.setCapability(MobileCapabilityType.APP, "C://JavaProjects/POMIlcarroQA20/contacts-android.apk");
 
         try {
             driver = new AppiumDriver<MobileElement>(new URL("http://localhost:4723/wd/hub"), capabilities);

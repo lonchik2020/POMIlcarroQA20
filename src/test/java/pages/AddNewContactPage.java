@@ -104,4 +104,9 @@ public class AddNewContactPage extends BasePage{
         clickBase(btnOkAlertError);
         return this;
     }
+
+//    public ContactListPage backToContactList(){
+//        backBtnOnEmulator();
+//        return new ContactListPage(driver);
+//    }
 }

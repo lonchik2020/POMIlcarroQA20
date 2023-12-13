@@ -27,34 +27,37 @@ public class AddNewContactTests extends AppiumConfig {
                         .build());
         //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
     }
-    @AfterMethod
-    public void afterMethod(){
-        if(flagToCloseAlert){
-            flagToCloseAlert = false;
-            new AddNewContactPage(driver).clickOkCloseAlert();
-                    //backBtnOnEmulator();
-            //driver.hideKeyboard();
-            //driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-            //new ContactListPage(driver).pause(10000);
-            driver.navigate().back();
-        }
-    }
 
     @AfterClass
     public void afterClass(){
-       //need to open contact page before logout
+        //need to open contact page before logout
         new ContactListPage(driver).logout();
     }
 
 
+    @AfterMethod
+    public void afterMethod(){
+        if(flagToCloseAlert){
+            flagToCloseAlert = false;
+            new AddNewContactPage(driver).clickOkCloseAlert().backBtnOnEmulator();
+            //driver.hideKeyboard();
+            //driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//            new ContactListPage(driver).pause(5000);
+//            driver.navigate().back();
+        }
+    }
+
+
+
     @Test
+    //(invocationCount = 15 )
     public void positiveAddNewContact(){
         int i;
         i = new Random().nextInt(1000) + 1000;
         System.out.println(i);
         //contact page - click +
-        new ContactListPage(driver).pause(10);
-        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //new ContactListPage(driver).pause(10000);
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         Assert.assertTrue(new ContactListPage(driver).clickBtnAddNewContact()
                 .addNewContact(ContactDTO.builder()
                         .name("testQA20" + i)
@@ -64,7 +67,8 @@ public class AddNewContactTests extends AppiumConfig {
                         .address("Haifa")
                         .description("contact" + i)
                         .build())
-                .validateCurrentContactCreated(i));
+                //.validateCurrentContactCreated(i));
+                        .isPhoneNumberOnThePage("1234567" + i));
         //fill the fields on the add new contact page and click create
         //some validation
 

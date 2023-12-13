@@ -2,7 +2,11 @@ package pages;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -15,17 +19,113 @@ public class ContactListPage extends BasePage {
     @FindBy(xpath = "//*[@text='Contact list']")
     MobileElement textTitle;
 
-   // @FindBy(xpath = "//android.widget.ImageView[@content-desc='More options']")
+    //@FindBy(xpath = "//*[@accessibility id='More options']")
     @FindBy(xpath = "//android.widget.ImageView[@content-desc='More options']")
     MobileElement menuMoreOptions;
+    // class android.widget.ImageView
+    // accessibility id	   = More options
 
     @FindBy(xpath = "//*[@resource-id='com.sheygam.contactapp:id/title']")
     MobileElement btnLogout;
 
+    @FindBy(xpath = "//*[@resource-id='android:id/button1']")
+    MobileElement btnYesDeleteContact;
+
     @FindBy(xpath = "//*[@class='android.widget.ImageButton']")
     MobileElement btnAddNewContact;
 
-    By contactPhoneNumberElement = By.xpath("//*[@resource-id='com.sheygam.contactapp:id/rowPhone']");
+
+    @FindBy(xpath = "//*[@resource-id='com.sheygam.contactapp:id/rowPhone']")
+    List<MobileElement> allPhoneNumbers;
+
+    //By contactPhoneNumberElement = By.xpath("//*[@resource-id='com.sheygam.contactapp:id/rowPhone']");
+
+    By allPhones = By.xpath("//*[@resource-id='com.sheygam.contactapp:id/rowPhone']");
+
+
+    public By getElementByPhoneNumber (String phone){
+      return By.xpath(String.format("//*[text='%s']", phone));
+    }
+
+    //    public ContactListPage scrollToPhoneNumber(String phoneNumber) {
+//        try {
+//            scrollToElementBaseBy(getElementByPhoneNumber(phoneNumber));
+//        }catch(Exception e) {
+//            e.getMessage();
+//        }
+//        return this;
+//    }
+
+
+
+    public boolean isPhoneNumberOnThePage (String phoneNumber) {
+        waitElement(btnAddNewContact, 5);//method for waiting until appears element btnAddNewContact
+        boolean flag = false;
+//        try{
+//            driver.findElement(getElementByPhoneNumber(phoneNumber));
+//            flag = true;
+//            System.out.println(flag + "------------");
+//        }catch(Exception e) {
+//            e.getMessage();
+//        }
+//        return flag;
+        while(!flag) {
+            flag = isContainsText(allPhoneNumbers, phoneNumber);
+            if (flag == false) isEndOfList();
+        }
+        return flag;
+    }
+
+
+    public boolean isContainsText(List<MobileElement> list, String text){
+        for(MobileElement element : list){
+            if(element.getText().contains(text)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean isEndOfList(){
+        String beforeScroll =
+                allPhoneNumbers
+                        .get(allPhoneNumbers.size() - 1)
+                        .getText() + " " +
+                        allPhoneNumbers
+                                .get(allPhoneNumbers.size() - 1)
+                                .getText();
+        scrollingList();
+        String afterScroll =
+                allPhoneNumbers
+                        .get(allPhoneNumbers.size() - 1)
+                        .getText() + " " +
+                        allPhoneNumbers
+                                .get(allPhoneNumbers.size() - 1)
+                                .getText();
+        if(beforeScroll.equals(afterScroll)) return true;
+        return false;
+    }
+
+
+    public ContactListPage scrollingList(){
+        waitElement(btnAddNewContact, 5);
+
+        MobileElement contact = contacts.get(contacts.size() - 1);
+
+        Rectangle rect = contact.getRect();
+        int xRow = rect.getX() + rect.getWidth()/2;
+        int yRow = rect.getY() + rect.getHeight()/2;
+
+        TouchAction<?> action = new TouchAction<>(driver);
+        action
+                .longPress(PointOption.point(xRow, yRow))
+                .moveTo(PointOption.point(xRow, 0))
+                .release()
+                .perform();
+
+        return this;
+    }
 
 
 
@@ -40,19 +140,87 @@ public class ContactListPage extends BasePage {
     }
 
     public AddNewContactPage clickBtnAddNewContact(){
+        //   pause(3000);
+        waitElement(btnAddNewContact, 10);
         clickBase(btnAddNewContact);
         return new AddNewContactPage(driver);
     }
 
-    public List<MobileElement>list(By locator){
-        return driver.findElements(locator);
+//    public List<MobileElement>list(By locator){
+//        return driver.findElements(locator);
+//    }
+//
+//    public boolean validateCurrentContactCreated(int i) {
+//        for ( MobileElement phoneElement: list(contactPhoneNumberElement)) {
+//           if (isTextEqual(phoneElement,"1234567"+i))
+//               return true;
+//            }
+//        return false;
+//   }
+
+    public boolean validateCurrentContactCreated(int i){
+        boolean flagRes = false;
+        for(MobileElement el: allPhoneNumbers){
+            if(getTextBase(el).contains(String.valueOf(i))){
+                flagRes = true;
+                break;
+            }
+        }
+        return flagRes;
     }
 
-    public boolean validateCurrentContactCreated(int i) {
-        for ( MobileElement phoneElement: list(contactPhoneNumberElement)) {
-           if (isTextEqual(phoneElement,"1234567"+i))
-               return true;
+    public ContactListPage moveContactByPhoneNumberToTheRight(String phone) {
+        // good to add scroll
+        MobileElement phoneNumber = findElementBase(getElementByPhoneNumber(phone));
+
+        Rectangle rect = phoneNumber.getRect();
+        int xStart = rect.getX() + rect.getWidth()/8;
+        int xEnd = rect.getX() + rect.getWidth()*6/8;
+        int y = rect.getY() + rect.getHeight()/2;
+
+        TouchAction<?> touchAction = new TouchAction<>(driver);//<?>  means generic
+
+        touchAction
+                .longPress(PointOption.point(xStart, y))
+                .moveTo(PointOption.point(xEnd, y))
+                .release()
+                .perform();
+        //pause(10000);
+        return this;
+    }
+
+    public ContactListPage clickYesBtnPopUpForContactDelete() {
+        clickBase(btnYesDeleteContact);
+        return this;
+    }
+
+    public ContactListPage deleteAllContacts() {
+        String phone = "";
+        //   List<MobileElement> list = driver.findElements(allPhones);
+//        for(MobileElement el: list) {
+//            phone = getTextBase(el);
+//            moveContactByPhoneNumberToTheRight(phone);
+//            clickYesBtnPopUpForContactDelete();
+//        }
+        List<MobileElement> list = driver.findElements(allPhones);
+        while(!list.isEmpty()){
+            try {
+                MobileElement el = findElementBase(allPhones);
+                phone = getTextBase(el);
+                System.out.println(phone);
+                moveContactByPhoneNumberToTheRight(phone);
+                clickYesBtnPopUpForContactDelete();
+            } catch (Exception e) {
+                e.getMessage();
+            } finally {
+                list = driver.findElements(allPhones);
             }
-        return false;
-   }
+        }
+        return this;
+    }
+
+    public boolean validateContactListEmpty() {
+        List<MobileElement> list = driver.findElements(allPhones);
+        return list.isEmpty();
+    }
 }

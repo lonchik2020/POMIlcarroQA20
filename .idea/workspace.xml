@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00ca2cae-c576-4ae6-8bce-3c91b6364a8e" name="Changes" comment="sign up tests + file for emulator">
-      <change afterPath="$PROJECT_DIR$/src/test/java/dto/ContactDTO.java" afterDir="false" />
+    <list default="true" id="00ca2cae-c576-4ae6-8bce-3c91b6364a8e" name="Changes" comment="add new contacts tests + HW23">
+      <change afterPath="$PROJECT_DIR$/src/test/java/pages/ContactInfoPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/pages/EditContactPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tests/DeleteContactTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tests/UpdateContactTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/config/AppiumConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/config/AppiumConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/pages/AddNewContactPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pages/AddNewContactPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/pages/BasePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pages/BasePage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/pages/ContactListPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pages/ContactListPage.java" afterDir="false" />
@@ -63,7 +67,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/JavaProjects/phoneBookQA20&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/JavaProjects/POMIlcarroQA20&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
 }</component>
@@ -145,7 +149,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="LoginTests.positiveLogin" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="DeleteContactTests.deleteOneContactPositive" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -158,7 +162,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;tests.LoginTests.positiveLogin&quot;" />
+            <option value="&quot;tests.DeleteContactTests.deleteOneContactPositive&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -196,9 +200,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.AddNewContactTests.positiveAddNewContact" />
-        <item itemvalue="Gradle.AddNewContactTests.negativeTestEmptyPhone" />
         <item itemvalue="Gradle.AddNewContactTests" />
-        <item itemvalue="Gradle.LoginTests.positiveLogin" />
+        <item itemvalue="Gradle.DeleteContactTests.deleteOneContactPositive" />
+        <item itemvalue="Gradle.AddNewContactTests.negativeTestEmptyPhone" />
         <item itemvalue="Gradle.SignUpTests" />
       </list>
     </recent_temporary>
@@ -228,20 +232,29 @@
       <option name="project" value="LOCAL" />
       <updated>1701577841244</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add new contacts tests + HW23">
+      <option name="closed" value="true" />
+      <created>1701766654706</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701766654706</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="registration tests" />
     <MESSAGE value="sign up tests + file for emulator" />
-    <option name="LAST_COMMIT_MESSAGE" value="sign up tests + file for emulator" />
+    <MESSAGE value="add new contacts tests + HW23" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new contacts tests + HW23" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/pages/ContactListPage.java</url>
-          <line>9</line>
+          <line>13</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -260,7 +273,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/tests/AddNewContactTests.java</url>
-          <line>73</line>
+          <line>77</line>
           <properties class="tests.AddNewContactTests" method="negativeTestEmptyPhone">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
